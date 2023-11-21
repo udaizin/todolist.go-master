@@ -1,0 +1,21 @@
+{{ template "header" . }}
+<h1>ユーザー情報変更</h1>
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+<form action="/user/edit" method="POST">
+    <p>※パスワードは6文字以上にしてください。また、数字だけのパスワードは設定しないでください。</p><br>
+    <label>現在のユーザー名：</label><input type="text" name="current-username" value="{{ .Current_username }}" required>
+    <br>
+    <label>新しいユーザー名：</label><input type="text" name="new-username" value="{{ .New_username }}" required>
+    <br>
+    <label>現在のパスワード：</label><input type="text" name="current-password" value="{{ .Current_password }}" required>
+    <br>
+    <label>新しいパスワード：</label><input type="text" name="new-password" value="{{ .New_password }}" required>
+    <br>
+    <label>新しいパスワード確認用：</label><input type="text" name="new-password-confirmation" value="{{ .New_password_confirmation }}" required>
+    <br>
+    <input type="submit" value="登録">
+    <a href="/"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}

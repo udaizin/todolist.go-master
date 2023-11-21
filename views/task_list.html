@@ -1,0 +1,62 @@
+{{ template "header" . }}
+<h1>List of tasks</h1>
+<form action="/list" method="GET">
+    <input type="text" name="kw" value="{{ .Kw }}">:キーワードで検索
+    <br>
+    <input type="radio" name="display_isdone" value="done"> 完了済みタスクのみ表示
+    <input type="radio" name="display_isdone" value="notdone"> 未完了のタスクのみ表示
+    <select name="tag">
+        <option value="all" selected>すべて</option>
+        <option value="null">なし</option>
+        <option value="study">勉強</option>
+        <option value="work">仕事</option>
+        <option value="homework">課題</option>
+        <option value="hobby">趣味</option>
+    </select>
+    このタグのタスクのみ表示
+    <br>
+    <input type="submit" value="検索">
+</form>
+<p><a href="/task/new">新規登録</a></p>
+{{ if not .Tasks }}
+<p>登録データがありません．</p>
+{{ else }}
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>登録日</th>
+        <th>状態</th>
+        <th>締め切りまでの時間</th>
+        <th>優先度</th>
+        <th>タグ</th>
+        <th>説明</th>
+    </tr>
+    {{ range $task := .Tasks }}
+    <tr>
+        <td style="text-align:center;"><a href="/task/{{ $task.ID }}">{{ $task.ID }}</a></td>
+        <td>{{ $task.Title }}</td>
+        <td>{{ $task.CreatedAt }}</td>
+        <td style="text-align:center;">{{ if $task.IsDone }}済{{ end }}</td>
+        <!-- 現在からDeadlineまでの残り時間表示 -->
+        <td style="text-align:center;">{{ Floor ($task.Deadline.Sub $.Now).Hours }}時間</td>
+        <!-- Priorityが0なら低、1なら中、2なら高を表示 -->
+        <td style="text-align:center;">{{ if eq $task.Priority 0 }}低{{ else if eq $task.Priority 1 }}中{{ else }}<font color="red"><b>高</b></font>{{ end }}</td>
+        <!-- Tagがnullなら空白、studyなら勉強、workなら仕事、homeworkなら課題、hobbyなら趣味を表示 -->
+        <td style="text-align:center;">{{ if eq $task.Tag "null" }}{{ else if eq $task.Tag "study" }}勉強{{ else if eq $task.Tag "work" }}仕事{{ else if eq $task.Tag "homework" }}課題{{ else if eq $task.Tag "hobby" }}趣味{{ else }}{{ end }}</td>
+        <td>{{ $task.Overview }}</td>
+    </tr>
+    {{ end }}
+</table>
+{{ end }}
+<a href="/"><button type="button">戻る</button></a>
+<button type="button" onclick="confirm_logout()">ログアウト</button><br>
+<script>
+    const confirm_logout = () => {
+        if(window.confirm(`ログアウトします．よろしいですか？`)) {
+            location.href = `/logout`;
+        }
+}
+</script>
+{{ template "footer" }}
+

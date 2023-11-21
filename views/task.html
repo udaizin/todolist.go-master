@@ -1,0 +1,44 @@
+{{ template "header" . }}
+<h1>Task: {{ .Title }}</h1>
+<dl>
+    <dt>ID</dt>
+    <dd>{{ .ID }}</dd>
+    <dt>Created at</dt>
+    <dd>{{ .CreatedAt }}</dd>
+    <dt>Status</dt>
+    <dd><input type="checkbox" {{ if .IsDone }}checked {{ end }}disabled/>済</dd>
+    <dt>Deadline</dt>
+    <dd>{{ .Deadline }}</dd>
+    <dt>Priority</dt>
+    <dd>{{ if eq .Priority 0 }}低{{ else if eq .Priority 1 }}中{{ else }}高{{ end }}</dd>
+    <dt>Tag</dt>
+    <dd>{{ if eq .Tag "null" }}{{ else if eq .Tag "study" }}勉強{{ else if eq .Tag "work" }}仕事{{ else if eq .Tag "homework" }}課題{{ else if eq .Tag "hobby" }}趣味{{ else }}{{ end }}</dd>
+    <dt>Overview</dt>
+    <dd>{{ .Overview }}</dd>
+</dl>
+<a href="/list"><button type="button">リストへ戻る</button></a>
+<button type="button" onclick="confirm_update({{ .ID }})">編集</button>
+<button type="button" onclick="confirm_delete({{ .ID }})">削除</button><br>
+<button type="button" onclick="confirm_logout()">ログアウト</button><br>
+<script type="text/javascript">
+    const confirm_delete = (id) => {
+        if(window.confirm(`Task ${id} を削除します．よろしいですか？`)) {
+            location.href = `/task/delete/${id}`;
+        }
+    }
+</script>
+<script>
+    const confirm_update = (id) => {
+        if(window.confirm(`Task ${id} を編集します．よろしいですか？`)) {
+            location.href = `/task/edit/${id}`;
+        }
+}
+</script>
+<script>
+    const confirm_logout = () => {
+        if(window.confirm(`ログアウトします．よろしいですか？`)) {
+            location.href = `/logout`;
+        }
+}
+</script>
+{{ template "footer" }}

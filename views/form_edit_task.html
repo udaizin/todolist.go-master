@@ -1,0 +1,36 @@
+{{ template "header" . }}
+<h1>Task {{ .Task.ID }}: edit</h1>
+<form action="/task/edit/{{ .Task.ID }}" method="POST">
+    <label>Title</label><input type="text" name="title" value="{{ .Task.Title }}" required>
+    <br>
+    <input type="radio" name="is_done" value="t" {{ if .Task.IsDone }}checked{{ end }}><label>完了</label>
+    <input type="radio" name="is_done" value="f" {{ if not .Task.IsDone }}checked{{ end }}><label>未完了</label>
+    <br>
+    <label>Deadline</label>
+    <input type="date" name="deadline" value='{{ .Task.Deadline.Format "2006-01-02" }}' required>
+    <br>
+    <label>Priority</label>
+    <br>
+    <!-- ラジオボタン形式で優先度を選択できるようにする -->
+    <input type="radio" name="priority" value="0" {{ if eq .Task.Priority 0 }}checked{{ end }}><label>低</label>
+    <input type="radio" name="priority" value="1" {{ if eq .Task.Priority 1 }}checked{{ end }}><label>中</label>
+    <input type="radio" name="priority" value="2" {{ if eq .Task.Priority 2 }}checked{{ end }}><label>高</label>
+    <br>
+    <label>Tag</label>
+    <!-- ドロップダウン形式でなし, 勉強, 仕事, 課題, 趣味から選べるようにする。初期値はTagからとってくる -->
+    <select name="tag">
+        <option value="null" {{ if eq .Task.Tag "null" }}selected{{ end }}></option>
+        <option value="study" {{ if eq .Task.Tag "study" }}selected{{ end }}>勉強</option>
+        <option value="work" {{ if eq .Task.Tag "work" }}selected{{ end }}>仕事</option>
+        <option value="homework" {{ if eq .Task.Tag "homework" }}selected{{ end }}>課題</option>
+        <option value="hobby" {{ if eq .Task.Tag "hobby" }}selected{{ end }}>趣味</option>
+    </select>
+    <br>
+    <label>Overview</label>
+    <br>
+    <textarea name="overview"> {{.Task.Overview}} </textarea>
+    <br>
+    <input type="submit" value="登録">
+    <a href="/task/{{ .Task.ID }}"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}

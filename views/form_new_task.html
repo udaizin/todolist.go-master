@@ -1,0 +1,33 @@
+{{ template "header" . }}
+<h1>タスクの新規登録</h1>
+<form action="/task/new" method="POST">
+    <label>Title</label><input type="text" name="title" required>
+    <br>
+
+    <label>Deadline</label>
+    <input type="date" name="deadline" required>
+    <br>
+    <label>Priority</label>
+    <br>
+    <input type="radio" name="priority" value="0" checked><label>低</label>
+    <input type="radio" name="priority" value="1"><label>中</label>
+    <input type="radio" name="priority" value="2"><label>高</label>
+    <br>
+    <label>Tag</label>
+    <!-- ドロップダウン形式でなし, 勉強, 仕事, 課題, 趣味から選べるようにする -->
+    <select name="tag">
+        <option value="null"></option>
+        <option value="study">勉強</option>
+        <option value="work">仕事</option>
+        <option value="homework">課題</option>
+        <option value="hobby">趣味</option>
+    </select>
+    <br>
+    <label>Overview</label>
+    <br>
+    <textarea name="overview"></textarea>
+    <br>
+    <input type="submit" value="登録">
+    <a href="/list"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}

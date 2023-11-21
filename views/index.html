@@ -1,0 +1,25 @@
+{{ template "header" . }}
+<h1>TODO List</h1>
+<ul>
+    <li><a href="/list">登録済みタスク一覧</a></li>
+    <li><a href="/user/new">ユーザー登録</a></li>
+    <li><a href="/user/edit">ユーザー情報変更</a></li>
+    <li><a href="/login">ログイン</a></li>
+    <button type="button" onclick="confirm_logout()">ログアウト</button><br>
+    <button type="button" onclick="confirm_delete_user()">アカウント削除</button><br>
+</ul>
+<script>
+    const confirm_logout = () => {
+        if(window.confirm(`ログアウトします．よろしいですか？`)) {
+            location.href = `/logout`;
+        }
+    }
+</script>
+<script>
+    const confirm_delete_user = () => {
+        if(window.confirm(`ユーザーアカウントをします．よろしいですか？`)) {
+            location.href = `/user/delete`;
+        }
+    }
+</script>
+{{ template "footer" }}

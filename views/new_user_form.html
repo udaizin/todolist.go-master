@@ -1,0 +1,14 @@
+{{ template "header" . }}
+<h1>ユーザ登録</h1>
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+<form action="/user/new" method="POST">
+    <p>※パスワードは6文字以上にしてください。また、数字だけのパスワードは設定しないでください。</p><br>
+    <label>ユーザ名: </label><input type="text" name="username" value="{{ .Username }}"required><br>
+    <label>パスワード: </label><input type="text" name="password" value="{{ .Password }}" required><br>
+    <label>パスワード確認: </label><input type="text" name="password_confirmation" value="{{ .Password_confirmation }}" required><br>
+    <input type="submit" value="登録">
+    <a href="/"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}
